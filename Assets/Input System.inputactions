@@ -1,0 +1,115 @@
+{
+    "version": 1,
+    "name": "Input System",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "a2804ba6-0289-439f-b581-03828ced67a6",
+            "actions": [
+                {
+                    "name": "LMB_Interact",
+                    "type": "Button",
+                    "id": "f474478b-6fc7-4675-8822-1496cb69bb12",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RMB_Interact",
+                    "type": "Button",
+                    "id": "f4ca3ad7-213a-4189-8941-0f6d03831b75",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LSK_Interact",
+                    "type": "Button",
+                    "id": "877f3e51-b273-4656-8668-ee0f27e515b8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ESC_Interact",
+                    "type": "Button",
+                    "id": "f64a6190-deac-4dcb-bae3-e2d7e3cb64b0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RMB_InteractR",
+                    "type": "Button",
+                    "id": "9da9d803-aaca-499d-8551-375c90ccf793",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ccb8e7d9-54d3-4781-9b49-efee314c7dc9",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LMB_Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e64a66e-8988-4583-b6a9-e53ab2e94082",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RMB_Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a2c082b8-84d5-4b55-b29d-35eceb8df11c",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LSK_Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8a827f7e-7045-4029-a963-1e0c12549e86",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ESC_Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7a658116-6d61-4e98-bcac-92f341baf015",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RMB_InteractR",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
