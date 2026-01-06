@@ -6,4 +6,9 @@ namespace ITISKIRU
     {
         void OnInteract(string Msg);
     }
+
+    public interface Storable
+    {
+        void OnStore(string Msg);
+    }
 }

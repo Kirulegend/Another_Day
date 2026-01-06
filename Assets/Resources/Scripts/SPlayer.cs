@@ -102,7 +102,7 @@ namespace ITISKIRU
                     {
                         if ((uiCanvas && uiCanvas.transform.position != hit.collider.GetComponent<Box>()._canvasPoint.position) || !uiCanvas)
                         {
-                            uiCanvas = gm.Set_boxUI(hit.collider.GetComponent<Box>().defaultItem.ToString(), hit.collider.GetComponent<Box>().GetQuantity());
+                            //uiCanvas = gm.Set_boxUI(hit.collider.GetComponent<Box>().defaultItem.ToString(), hit.collider.GetComponent<Box>().GetQuantity());
                             uiCanvas.transform.position = hit.collider.GetComponent<Box>()._canvasPoint.position;
                             uiCanvas.gameObject.SetActive(true);
                         }
@@ -135,7 +135,7 @@ namespace ITISKIRU
                     {
                         if ((uiCanvas && uiCanvas.transform.position != hit.collider.GetComponent<EggCooker>()._canvasPoint.position) || !uiCanvas)
                         {
-                            uiCanvas = gm.Set_boxUI("EggCooker", hit.collider.GetComponent<EggCooker>().GetData());
+                            //uiCanvas = gm.Set_boxUI("EggCooker", hit.collider.GetComponent<EggCooker>().GetData());
                             uiCanvas.transform.position = hit.collider.GetComponent<EggCooker>()._canvasPoint.position;
                             uiCanvas.gameObject.SetActive(true);
                         }
@@ -162,7 +162,7 @@ namespace ITISKIRU
                     {
                         if ((uiCanvas && uiCanvas.transform.position != hit.collider.GetComponent<ItemObj>()._canvasPoint.position) || !uiCanvas)
                         {
-                            uiCanvas = gm.Set_boxUI(hit.collider.GetComponent<ItemObj>()._itemName.ToString(), hit.collider.GetComponent<ItemObj>().GetData());
+                            //uiCanvas = gm.Set_boxUI(hit.collider.GetComponent<ItemObj>()._itemName.ToString(), hit.collider.GetComponent<ItemObj>().GetData());
                             uiCanvas.transform.position = hit.collider.GetComponent<ItemObj>()._canvasPoint.position;
                             uiCanvas.gameObject.SetActive(true);
                         }

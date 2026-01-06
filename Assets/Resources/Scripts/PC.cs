@@ -24,6 +24,13 @@ namespace ITISKIRU
         {
             GameInput.GI_Instance.RMB_Down -= GameInput_RMB_Down;
         }
+        void OnMouseOver()
+        {
+            if (!Player.isInteract)
+            {
+                KeyEvents._ke.SetUIActive(InteractionType.Use);
+            }
+        }
         void GameInput_RMB_Down()
         {
             if(!_isCameraTransitioning && _originalCamParent) StartCoroutine(ReturnCameraToOriginal());
@@ -41,9 +48,9 @@ namespace ITISKIRU
                     _originalCamParent = _cameraTrans.parent;
                     _originalCamLocalPos = _cameraTrans.localPosition;
                     _originalCamLocalRot = _cameraTrans.localRotation;
+                    Player.isInteract = true;
                     _cameraTrans.SetParent(null);
                     StartCoroutine(MoveCameraToLock(_cameraPreviewPos.position, _cameraPreviewPos.rotation));
-                    Player.isInteract = true;
                     GetComponent<Collider>().enabled = false;
                 }
             }

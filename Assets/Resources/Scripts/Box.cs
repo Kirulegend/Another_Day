@@ -91,6 +91,11 @@ namespace ITISKIRU
             }
             return false;
         }
+        public bool ItemCheck(ItemName name)
+        {
+            if(_quantity < _spots.Count && name == defaultItem) return true;
+            return false;
+        }
         public string GetQuantity()
         {
             return "Quantity " + _quantity.ToString("D2") + "/" + _spots.Count.ToString("D2");

@@ -41,6 +41,7 @@ namespace ITISKIRU
                 OnInteraction?.Invoke(_isInteract);
             }
         }
+
         void Start()
         {
             cameraTransform = transform.Find("Camera");
@@ -53,6 +54,7 @@ namespace ITISKIRU
             GameInput.GI_Instance.LSK_Down += GameInput_LSK_Down;
             GameInput.GI_Instance.ESC_Down += GI_Instance_ESC_Down;
         }
+
         void OnDisable()
         {
             GameInput.GI_Instance.LMB_Down -= GameInput_LMB_Down;
@@ -60,22 +62,25 @@ namespace ITISKIRU
             GameInput.GI_Instance.LSK_Down -= GameInput_LSK_Down;
             GameInput.GI_Instance.ESC_Down -= GI_Instance_ESC_Down;
         }
+
         void GameInput_LMB_Down()
         {
             Debug.Log("GameInput_LMB_Down event received in Player class.");
             if(currentHitObj) currentHitObj.GetComponent<Interactable>().OnInteract("Suli");
-            if (Cursor.visible)
+            if (Cursor.visible && !isInteract)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
         }
+
         void GameInput_RMB_Down()
         {
-            if (currentHitObj) currentHitObj.GetComponent<Interactable>().OnInteract("Suli");
+            //if (currentHitObj) currentHitObj.GetComponent<Interactable>().OnInteract("Suli");
             Debug.Log("GameInput_RMB_Down event received in Player class.");
 
         }
+
         void GameInput_LSK_Down()
         {
             Debug.Log("GameInput_LSK_Down event received in Player class.");
@@ -90,6 +95,7 @@ namespace ITISKIRU
                 anim.SetBool("Sprint", true);
             }
         }
+
         void GI_Instance_ESC_Down()
         {
             if (!Cursor.visible)
@@ -107,6 +113,7 @@ namespace ITISKIRU
             else if (isHoldingSmall) HandlePreviewHand();
             else if (!isInteract && !isHolding) RaycastForward();
         }
+
         void MovePlayer()
         {
             if (isInteract) return;
@@ -117,9 +124,10 @@ namespace ITISKIRU
             anim.SetFloat("MoveZ", Input.GetAxis("Vertical"));
             transform.position += move;
         }
+
         void CameraLook()
         {
-            if (isInteract) return;
+            if (isInteract && Cursor.visible) return;
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
             float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
             rotationX -= mouseY;
@@ -127,6 +135,7 @@ namespace ITISKIRU
             cameraTransform.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
             transform.Rotate(Vector3.up * mouseX);
         }
+
         void RaycastForward()
         {
             Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
@@ -136,14 +145,11 @@ namespace ITISKIRU
                 {
                     currentHitObj = hit.collider.gameObject;
                     Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.red);
-                    if (hit.collider.gameObject.CompareTag("PC")) KeyEvents._ke.SetUIActive(InteractionType.Use);
                     if (hit.collider.CompareTag("Box"))
                     {
                         if ((uiCanvas && uiCanvas.transform.position != hit.collider.GetComponent<Box>()._canvasPoint.position) || !uiCanvas)
                         {
-                            uiCanvas = gm.Set_boxUI(hit.collider.GetComponent<Box>().defaultItem.ToString(), hit.collider.GetComponent<Box>().GetQuantity());
-                            uiCanvas.transform.position = hit.collider.GetComponent<Box>()._canvasPoint.position;
-                            uiCanvas.gameObject.SetActive(true);
+                            uiCanvas = gm.Set_boxUI(hit.collider.GetComponent<Box>().defaultItem.ToString(), hit.collider.GetComponent<Box>().GetQuantity(), hit.collider.GetComponent<Box>()._canvasPoint.position);
                         }
                         bool temp = hit.collider.GetComponent<Box>()._opened;
                         Animator animator = hit.collider.GetComponent<Animator>();
@@ -172,11 +178,10 @@ namespace ITISKIRU
                     }
                     else if (hit.collider.name == "EggCooker")
                     {
+                        currentHitObj = null;
                         if ((uiCanvas && uiCanvas.transform.position != hit.collider.GetComponent<EggCooker>()._canvasPoint.position) || !uiCanvas)
                         {
-                            uiCanvas = gm.Set_boxUI("EggCooker", hit.collider.GetComponent<EggCooker>().GetData());
-                            uiCanvas.transform.position = hit.collider.GetComponent<EggCooker>()._canvasPoint.position;
-                            uiCanvas.gameObject.SetActive(true);
+                            uiCanvas = gm.Set_boxUI("EggCooker", hit.collider.GetComponent<EggCooker>().GetData(), hit.collider.GetComponent<EggCooker>()._canvasPoint.position);
                         }
                         if (Input.GetMouseButtonDown(0))
                         {
@@ -199,11 +204,10 @@ namespace ITISKIRU
                     }
                     else if (hit.collider.CompareTag("Item"))
                     {
+                        currentHitObj = null;
                         if ((uiCanvas && uiCanvas.transform.position != hit.collider.GetComponent<ItemObj>()._canvasPoint.position) || !uiCanvas)
                         {
-                            uiCanvas = gm.Set_boxUI(hit.collider.GetComponent<ItemObj>()._itemName.ToString(), hit.collider.GetComponent<ItemObj>().GetData());
-                            uiCanvas.transform.position = hit.collider.GetComponent<ItemObj>()._canvasPoint.position;
-                            uiCanvas.gameObject.SetActive(true);
+                            uiCanvas = gm.Set_boxUI(hit.collider.GetComponent<ItemObj>()._itemName.ToString(), hit.collider.GetComponent<ItemObj>().GetData(), hit.collider.GetComponent<ItemObj>()._canvasPoint.position);
                         }
                         if (Input.GetMouseButtonDown(0)) GrabObjHand(hit.collider.gameObject);
                     }
@@ -223,15 +227,7 @@ namespace ITISKIRU
                         uiCanvas.gameObject.SetActive(false);
                         uiCanvas = null;
                     }
-                }
-                if (uiCanvas)
-                {
-                    Vector3 direction = cameraTransform.position - uiCanvas.transform.position;
-                    if (direction.magnitude > 0.01f)
-                    {
-                        Quaternion targetRotation = Quaternion.LookRotation(-direction);
-                        uiCanvas.transform.rotation = Quaternion.Slerp(uiCanvas.transform.rotation, targetRotation, lerpSpeed * Time.deltaTime);
-                    }
+                    KeyEvents._ke.SetUIActive();
                 }
             }
             else
@@ -245,6 +241,20 @@ namespace ITISKIRU
                 }
             }
         }
+
+        void LateUpdate()
+        {
+            if (uiCanvas)
+            {
+                Vector3 direction = cameraTransform.position - uiCanvas.transform.position;
+                if (direction.magnitude > 0.01f)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(-direction);
+                    uiCanvas.transform.rotation = Quaternion.Slerp(uiCanvas.transform.rotation, targetRotation, lerpSpeed * Time.deltaTime);
+                }
+            }
+        }
+
         void GrabObj(GameObject box)
         {
             if (isHolding) return;
@@ -257,15 +267,16 @@ namespace ITISKIRU
             isHolding = true;
             grabbedObject = box;
             grabbedObject.layer = LayerMask.NameToLayer("Ignore Raycast");
-            previewObject = Instantiate(box, grabPos.position, Quaternion.identity);
             grabbedObject.GetComponent<Collider>().enabled = false;
             grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
+            previewObject = Instantiate(box, grabPos.position, Quaternion.identity);
             Renderer[] previewRenderers = previewObject.GetComponentsInChildren<Renderer>();
             foreach (Renderer r in previewRenderers) r.material = whiteMaterial;
             Collider[] previewColliders = previewObject.GetComponentsInChildren<Collider>();
             foreach (Collider col in previewColliders) col.isTrigger = true;
             previewObject.AddComponent<PlacementPreview>();
         }
+
         void HandlePreview()
         {
             grabbedObject.transform.position = Vector3.Lerp(grabbedObject.transform.position, grabPos.position, Time.deltaTime * lerpSpeed * 2);
@@ -312,6 +323,7 @@ namespace ITISKIRU
 
             }
         }
+
         void GrabObjHand(GameObject box)
         {
             if (isHoldingSmall) return;
@@ -333,6 +345,7 @@ namespace ITISKIRU
             previewObject.GetComponent<Renderer>().material = whiteMaterial;
             previewObject.AddComponent<PlacementPreview>();
         }
+
         void HandlePreviewHand()
         {
             grabbedObject.transform.position = Vector3.Lerp(grabbedObject.transform.position, objGrabPos.position, Time.deltaTime * lerpSpeed);
@@ -343,7 +356,7 @@ namespace ITISKIRU
             if (Physics.Raycast(ray, out RaycastHit hit, raycastDistance))
             {
                 previewPosition = hit.point + new Vector3(0, .01f, 0);
-                if (hit.collider.CompareTag("Box") && grabbedObject.GetComponent<ItemObj>()._itemName == hit.collider.GetComponent<Box>().defaultItem && grabbedObject.GetComponent<ItemObj>()._status == "Cookable")
+                if (hit.collider.CompareTag("Box") && hit.collider.GetComponent<Box>().ItemCheck(grabbedObject.GetComponent<ItemObj>()._itemName))
                 {
                     isPlaceable = true;
                     KeyEvents._ke.SetUIActive(InteractionType.Putin);
@@ -412,6 +425,7 @@ namespace ITISKIRU
             {
                 previewPosition = cameraTransform.position + cameraTransform.forward * raycastDistance;
                 isPlaceable = false;
+                KeyEvents._ke.SetUIActive(InteractionType.None);
                 previewObject.GetComponent<Renderer>().material = redMaterial;
             }
             previewObject.transform.position = previewPosition;

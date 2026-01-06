@@ -32,6 +32,7 @@ namespace ITISKIRU
         }
         public void SetUIActive(params InteractionType[] typesToActivate)
         {
+            Debug.Log("Setting UI Active");
             InteractionType combinedFlags = InteractionType.None;
             foreach (InteractionType type in typesToActivate) combinedFlags |= type;
             foreach (var pair in uiButtons)

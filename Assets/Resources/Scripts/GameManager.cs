@@ -16,10 +16,12 @@ namespace ITISKIRU
             if (isInteract) _canvas.enabled = false;
             else _canvas.enabled = true;
         }
-        public Transform Set_boxUI(string Name, string Quantity)
+        public Transform Set_boxUI(string Name, string Quantity, Vector3 Position)
         {
             _box.transform.Find("Panel").Find("Box Name").GetComponent<TextMeshProUGUI>().text = Name;
             _box.transform.Find("Panel").Find("Box Details").GetComponent<TextMeshProUGUI>().text = Quantity;
+            _box.transform.position = Position;
+            _box.gameObject.SetActive(true);
             return _box.transform;
         }
     }
