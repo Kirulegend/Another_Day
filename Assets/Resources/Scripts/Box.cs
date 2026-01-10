@@ -53,7 +53,7 @@ namespace ITISKIRU
         }
         void OnMouseOver()
         {
-            if (!Player.isHolding && !Player.isHoldingSmall)
+            if (!Player.isHolding && !Player.isHoldingHand)
             {
                 if (!_grabbed && _opened) KeyEvents._ke.SetUIActive(InteractionType.Take, InteractionType.Close);
                 else if (!_grabbed && !_opened) KeyEvents._ke.SetUIActive(InteractionType.Pick, InteractionType.Open);
@@ -100,10 +100,14 @@ namespace ITISKIRU
         {
             return "Quantity " + _quantity.ToString("D2") + "/" + _spots.Count.ToString("D2");
         }
-
-        public void OnInteract(string Msg)
+        public void OnInteract()
         {
-            Debug.Log("Interacted with Box: " + Msg);
+            
+        }
+
+        public void OnInteractHand(Transform T)
+        {
+            
         }
     }
 }

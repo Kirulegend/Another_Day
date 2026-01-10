@@ -128,6 +128,7 @@ MonoBehaviour:
   _itemName: 1
   _canvasPoint: {fileID: 682473092300903060}
   _status: 
+  _material: {fileID: 3609423721145478305}
 --- !u!1 &3804965601302869167
 GameObject:
   m_ObjectHideFlags: 0

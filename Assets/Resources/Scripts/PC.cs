@@ -16,7 +16,6 @@ namespace ITISKIRU
 
         void Start()
         {
-            _cameraPreviewPos = transform.Find("CameraPos");
             _cameraTrans = Camera.main.transform;
             GameInput.GI_Instance.RMB_Down += GameInput_RMB_Down;
         }
@@ -26,23 +25,20 @@ namespace ITISKIRU
         }
         void OnMouseOver()
         {
-            if (!Player.isInteract)
-            {
-                KeyEvents._ke.SetUIActive(InteractionType.Use);
-            }
+            if (!Player.isInteract) KeyEvents._ke.SetUIActive(InteractionType.Use);
         }
         void GameInput_RMB_Down()
         {
             if(!_isCameraTransitioning && _originalCamParent) StartCoroutine(ReturnCameraToOriginal());
         }
-        public void OnInteract(string msg)
+        public void OnInteract()
         {
             if (_isInteracting) return;
             else
             {
                 KeyEvents._ke.SetUIActive();
                 _isInteracting = true;
-                transform.Find("Mart").GetComponent<Canvas>().worldCamera = Camera.main;
+                transform.parent.Find("Mart").GetComponent<Canvas>().worldCamera = Camera.main;
                 if (!_isCameraTransitioning)
                 {
                     _originalCamParent = _cameraTrans.parent;
@@ -55,6 +51,7 @@ namespace ITISKIRU
                 }
             }
         }
+        public void OnInteractHand(Transform T) { }
         IEnumerator MoveCameraToLock(Vector3 targetPos, Quaternion targetRot)
         {
             _isCameraTransitioning = true;
@@ -95,7 +92,7 @@ namespace ITISKIRU
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
-            transform.Find("Mart").GetComponent<Canvas>().worldCamera = null;
+            transform.parent.Find("Mart").GetComponent<Canvas>().worldCamera = null;
             _cameraTrans.SetParent(_originalCamParent);
             _cameraTrans.localPosition = _originalCamLocalPos;
             _cameraTrans.localRotation = _originalCamLocalRot;

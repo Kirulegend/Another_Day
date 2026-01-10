@@ -127,15 +127,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""RMB_InteractR"",
-                    ""type"": ""Button"",
-                    ""id"": ""9da9d803-aaca-499d-8551-375c90ccf793"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -154,7 +145,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""6e64a66e-8988-4583-b6a9-e53ab2e94082"",
                     ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": ""Press"",
+                    ""interactions"": ""Press,Press(behavior=1)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""RMB_Interact"",
@@ -182,17 +173,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""ESC_Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7a658116-6d61-4e98-bcac-92f341baf015"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": ""Press(behavior=1)"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""RMB_InteractR"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -205,7 +185,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_Player_RMB_Interact = m_Player.FindAction("RMB_Interact", throwIfNotFound: true);
         m_Player_LSK_Interact = m_Player.FindAction("LSK_Interact", throwIfNotFound: true);
         m_Player_ESC_Interact = m_Player.FindAction("ESC_Interact", throwIfNotFound: true);
-        m_Player_RMB_InteractR = m_Player.FindAction("RMB_InteractR", throwIfNotFound: true);
     }
 
     ~@InputSystem()
@@ -290,7 +269,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_RMB_Interact;
     private readonly InputAction m_Player_LSK_Interact;
     private readonly InputAction m_Player_ESC_Interact;
-    private readonly InputAction m_Player_RMB_InteractR;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -318,10 +296,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ESC_Interact".
         /// </summary>
         public InputAction @ESC_Interact => m_Wrapper.m_Player_ESC_Interact;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/RMB_InteractR".
-        /// </summary>
-        public InputAction @RMB_InteractR => m_Wrapper.m_Player_RMB_InteractR;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -360,9 +334,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @ESC_Interact.started += instance.OnESC_Interact;
             @ESC_Interact.performed += instance.OnESC_Interact;
             @ESC_Interact.canceled += instance.OnESC_Interact;
-            @RMB_InteractR.started += instance.OnRMB_InteractR;
-            @RMB_InteractR.performed += instance.OnRMB_InteractR;
-            @RMB_InteractR.canceled += instance.OnRMB_InteractR;
         }
 
         /// <summary>
@@ -386,9 +357,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @ESC_Interact.started -= instance.OnESC_Interact;
             @ESC_Interact.performed -= instance.OnESC_Interact;
             @ESC_Interact.canceled -= instance.OnESC_Interact;
-            @RMB_InteractR.started -= instance.OnRMB_InteractR;
-            @RMB_InteractR.performed -= instance.OnRMB_InteractR;
-            @RMB_InteractR.canceled -= instance.OnRMB_InteractR;
         }
 
         /// <summary>
@@ -457,12 +425,5 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnESC_Interact(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "RMB_InteractR" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRMB_InteractR(InputAction.CallbackContext context);
     }
 }

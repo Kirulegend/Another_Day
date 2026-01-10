@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 5177568651471869838}
   - component: {fileID: -4545163346131528930}
   - component: {fileID: 3682714045488865261}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Egg
   m_TagString: Item
   m_Icon: {fileID: 0}
@@ -99,6 +99,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -120,6 +122,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -139,6 +142,7 @@ MonoBehaviour:
   _itemName: 0
   _canvasPoint: {fileID: 6044112882911870997}
   _status: Cookable
+  _material: {fileID: 5177568651471869838}
 --- !u!65 &3682714045488865261
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -154,7 +158,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3

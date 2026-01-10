@@ -3,7 +3,7 @@ using UnityEngine;
 namespace ITISKIRU
 {
     public enum ItemType { Vegi, Frozen, Dairy, Sause, Cover }
-    public enum ItemName { Egg, Rice, Noodles, Pearls, Sugarcane, Carrot }
+    public enum ItemName { Egg, Rice, Noodles, Pearls, Sugarcane, Carrot, Batter }
 
     [Flags]
     public enum InteractionType

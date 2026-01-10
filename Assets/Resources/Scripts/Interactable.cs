@@ -4,7 +4,8 @@ namespace ITISKIRU
 {
     public interface Interactable
     {
-        void OnInteract(string Msg);
+        void OnInteract();
+        void OnInteractHand(Transform T);
     }
 
     public interface Storable

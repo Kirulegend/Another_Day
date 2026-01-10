@@ -19,5 +19,6 @@ namespace ITISKIRU
             if (other.isTrigger) return;
             if (collisionCount > 0) collisionCount--;
         }
+        void OnEnable() => collisionCount = 0;
     }
 }

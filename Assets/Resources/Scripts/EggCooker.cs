@@ -40,7 +40,7 @@ namespace ITISKIRU
         }
         void OnMouseOver()
         {
-            if (!Player.isHolding && !Player.isHoldingSmall)
+            if (!Player.isHolding && !Player.isHoldingHand)
             {
                 if (!isMoving && isOpen && !isCooking) KeyEvents._ke.SetUIActive(InteractionType.Take, InteractionType.Close);
                 else if (!isMoving && !isOpen && !isCooking) KeyEvents._ke.SetUIActive(InteractionType.Boil, InteractionType.Open);
@@ -49,7 +49,7 @@ namespace ITISKIRU
         }
         public void OC(bool isOpenC)
         {
-            if (!Player.isHolding && !Player.isHoldingSmall)
+            if (!Player.isHolding && !Player.isHoldingHand)
             {
                 if (!isCooking)
                 {
@@ -150,9 +150,13 @@ namespace ITISKIRU
             else return "Idle";
         }
 
-        public void OnInteract(string Msg)
+        public void OnInteract()
         {
             
+        }
+        public void OnInteractHand(Transform T)
+        {
+
         }
     }
 }

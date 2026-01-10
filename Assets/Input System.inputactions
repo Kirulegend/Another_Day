@@ -41,15 +41,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "RMB_InteractR",
-                    "type": "Button",
-                    "id": "9da9d803-aaca-499d-8551-375c90ccf793",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -68,7 +59,7 @@
                     "name": "",
                     "id": "6e64a66e-8988-4583-b6a9-e53ab2e94082",
                     "path": "<Mouse>/rightButton",
-                    "interactions": "Press",
+                    "interactions": "Press,Press(behavior=1)",
                     "processors": "",
                     "groups": "",
                     "action": "RMB_Interact",
@@ -94,17 +85,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "ESC_Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7a658116-6d61-4e98-bcac-92f341baf015",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "Press(behavior=1)",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RMB_InteractR",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
