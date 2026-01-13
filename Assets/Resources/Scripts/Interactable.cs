@@ -4,7 +4,7 @@ namespace ITISKIRU
 {
     public interface Interactable
     {
-        void OnInteract();
+        void OnInteract(int Mouse, Transform Script);
         void OnInteractHand(Transform T);
     }
 

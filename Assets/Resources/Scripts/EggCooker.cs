@@ -38,15 +38,17 @@ namespace ITISKIRU
             }
             spots.Reverse();
         }
-        void OnMouseOver()
+        void OnMouseEnter()
         {
+            GameManager.gM.Set_boxUI("Egg Boiler", GetData(), _canvasPoint.position);
             if (!Player.isHolding && !Player.isHoldingHand)
             {
                 if (!isMoving && isOpen && !isCooking) KeyEvents._ke.SetUIActive(InteractionType.Take, InteractionType.Close);
                 else if (!isMoving && !isOpen && !isCooking) KeyEvents._ke.SetUIActive(InteractionType.Boil, InteractionType.Open);
-                else if (isCooking) KeyEvents._ke.SetUIActive(InteractionType.Open);
+                else if (isCooking) KeyEvents._ke.SetUIActive(InteractionType.End);
             }
         }
+        void OnMouseExit() => GameManager.gM.Off_boxUI();
         public void OC(bool isOpenC)
         {
             if (!Player.isHolding && !Player.isHoldingHand)
@@ -99,6 +101,7 @@ namespace ITISKIRU
         IEnumerator CookingTimer()
         {
             float timer = 0f;
+            KeyEvents._ke.SetUIActive(InteractionType.End);
             smoke.Play();
             isCooking = true;
             Debug.Log("Boiling");
@@ -139,6 +142,7 @@ namespace ITISKIRU
                     item.transform.SetParent(spot._spot);
                     item.transform.localPosition = Vector3.zero;
                     item.transform.localRotation = Quaternion.identity;
+                    KeyEvents._ke.SetUIActive(InteractionType.Take, InteractionType.Close);
                     return true;
                 }
             }
@@ -150,9 +154,23 @@ namespace ITISKIRU
             else return "Idle";
         }
 
-        public void OnInteract()
+        public void OnInteract(int Num, Transform Player)
         {
-            
+            Debug.Log("OnInteract");
+            if (Num == 0)
+            {
+                if (isOpen)
+                {
+                    GameObject Temp = GetItem();
+                    if (Temp) Player.GetComponent<Player>().GrabObjHand(Temp);
+                }
+                else OC(false);
+            }
+            if (Num == 1)
+            {
+                if (isOpen) OC(true);
+                else Boil();
+            }
         }
         public void OnInteractHand(Transform T)
         {

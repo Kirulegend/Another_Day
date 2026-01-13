@@ -8,7 +8,7 @@ namespace ITISKIRU
     {
 
         public float TotalCapacity = 10;
-        public void OnInteract()
+        public void OnInteract(int Num, Transform T)
         {
             
         }

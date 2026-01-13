@@ -1147,7 +1147,7 @@ MonoBehaviour:
     m_Bits: 256
   grabPos: {fileID: 0}
   objGrabPos: {fileID: 405946052}
-  grabbedObject: {fileID: 862598972}
+  grabbedObject: {fileID: 0}
   previewObject: {fileID: 0}
   lerpSpeed: 20
   blueMaterial: {fileID: 2100000, guid: 2c14c40bffeab2b468930991d0250c79, type: 2}
@@ -1157,6 +1157,7 @@ MonoBehaviour:
   gm: {fileID: 0}
   anim: {fileID: 56966918}
   currentHitObj: {fileID: 0}
+  isPlaceable: 0
 --- !u!54 &176590127
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3161,7 +3162,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.44, y: -0.04, z: 0.7691698}
+  m_Size: {x: 1.44, y: 0.04, z: 0.7691698}
   m_Center: {x: 0, y: -0.015, z: 0.07129459}
 --- !u!65 &478426430
 BoxCollider:
@@ -10312,6 +10313,7 @@ MonoBehaviour:
   _spots: []
   _camera: {fileID: 330585546}
   defaultObj: {fileID: 0}
+  animator: {fileID: 843032795}
   defaultItem: 2
 --- !u!1 &851003122
 GameObject:
@@ -10379,6 +10381,7 @@ MonoBehaviour:
   _spots: []
   _camera: {fileID: 330585546}
   defaultObj: {fileID: 1056973281453539914, guid: 1a0ed3ee125339b4386a55b08fb2434c, type: 3}
+  animator: {fileID: 851003126}
   defaultItem: 1
 --- !u!65 &851003125
 BoxCollider:
@@ -10664,6 +10667,7 @@ MonoBehaviour:
   _spots: []
   _camera: {fileID: 330585546}
   defaultObj: {fileID: 0}
+  animator: {fileID: 874843177}
   defaultItem: 4
 --- !u!65 &874843180
 BoxCollider:
@@ -12890,11 +12894,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _opened: 0
   _grabbed: 0
-  _quantity: 6
+  _quantity: 0
   _canvasPoint: {fileID: 0}
   _spots: []
   _camera: {fileID: 330585546}
   defaultObj: {fileID: 1056973281453539914, guid: 1a0ed3ee125339b4386a55b08fb2434c, type: 3}
+  animator: {fileID: 1284428303}
   defaultItem: 1
 --- !u!95 &1284428303
 Animator:
@@ -13904,13 +13909,13 @@ PrefabInstance:
       addedObject: {fileID: 2078431267}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 591957dfb0df3fd44b1d367a24b9f763, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 2078431272}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 591957dfb0df3fd44b1d367a24b9f763, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 2078431268}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 591957dfb0df3fd44b1d367a24b9f763, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2078431270}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 591957dfb0df3fd44b1d367a24b9f763, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2078431272}
   m_SourcePrefab: {fileID: 100100000, guid: 591957dfb0df3fd44b1d367a24b9f763, type: 3}
 --- !u!1 &1414042918
 GameObject:
@@ -14313,7 +14318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ITISKIRU.ItemObj
   _itemName: 0
   _canvasPoint: {fileID: 254014697}
-  _status: 
+  _status: 10 Idli
   _material: {fileID: 1880831991}
 --- !u!1 &1516964114
 GameObject:
@@ -15060,10 +15065,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3682714045488865261, guid: 6832d244f15a4ad4ab3eb230f38039a5, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8402463783979944823, guid: 6832d244f15a4ad4ab3eb230f38039a5, type: 3}
       propertyPath: m_Name
       value: Egg
@@ -15790,13 +15791,13 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e164edd5499cfb147be4c9b240019451, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1494962339}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e164edd5499cfb147be4c9b240019451, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1494962335}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e164edd5499cfb147be4c9b240019451, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1494962337}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e164edd5499cfb147be4c9b240019451, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1494962339}
   m_SourcePrefab: {fileID: 100100000, guid: e164edd5499cfb147be4c9b240019451, type: 3}
 --- !u!1 &1695334879
 GameObject:
@@ -16072,6 +16073,7 @@ MonoBehaviour:
   _spots: []
   _camera: {fileID: 330585546}
   defaultObj: {fileID: 0}
+  animator: {fileID: 1709925759}
   defaultItem: 4
 --- !u!54 &1709925762
 Rigidbody:
@@ -17403,6 +17405,7 @@ GameObject:
   - component: {fileID: 1902887969}
   - component: {fileID: 1902887971}
   - component: {fileID: 1902887970}
+  - component: {fileID: 1902887972}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -17469,6 +17472,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1902887968}
   m_CullTransparentMesh: 1
+--- !u!114 &1902887972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902887968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a479f6c00369b44fae3133fff9c76c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ITISKIRU.LookTarget
+  target: {fileID: 330585546}
+  lerpSpeed: 20
 --- !u!1 &1903366777
 GameObject:
   m_ObjectHideFlags: 0
@@ -18510,7 +18527,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ITISKIRU.ItemObj
   _itemName: 6
   _canvasPoint: {fileID: 1861755786}
-  _status: 
+  _status: 10 Dosa
   _material: {fileID: 451437671}
 --- !u!1 &2081177566
 GameObject:
@@ -19249,11 +19266,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _opened: 0
   _grabbed: 0
-  _quantity: 10
+  _quantity: 0
   _canvasPoint: {fileID: 0}
   _spots: []
   _camera: {fileID: 330585546}
   defaultObj: {fileID: 8402463783979944823, guid: 6832d244f15a4ad4ab3eb230f38039a5, type: 3}
+  animator: {fileID: 764968286777477453}
   defaultItem: 0
 --- !u!4 &943663789591189554
 Transform:
@@ -20689,11 +20707,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _opened: 0
   _grabbed: 0
-  _quantity: 6
+  _quantity: 0
   _canvasPoint: {fileID: 0}
   _spots: []
   _camera: {fileID: 330585546}
   defaultObj: {fileID: 1056973281453539914, guid: 1a0ed3ee125339b4386a55b08fb2434c, type: 3}
+  animator: {fileID: 6566909299467951110}
   defaultItem: 1
 --- !u!65 &6566909299467951109
 BoxCollider:
@@ -20814,6 +20833,7 @@ MonoBehaviour:
   _spots: []
   _camera: {fileID: 330585546}
   defaultObj: {fileID: 0}
+  animator: {fileID: 6826471378108190618}
   defaultItem: 2
 --- !u!65 &6826471378108190620
 BoxCollider:
@@ -21226,6 +21246,7 @@ MonoBehaviour:
   _spots: []
   _camera: {fileID: 330585546}
   defaultObj: {fileID: 0}
+  animator: {fileID: 8719586019652290116}
   defaultItem: 2
 --- !u!54 &8719586019652290114
 Rigidbody:

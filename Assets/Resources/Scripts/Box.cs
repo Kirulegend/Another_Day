@@ -1,16 +1,18 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 namespace ITISKIRU
 {
     public class Box : MonoBehaviour, Interactable
     {
-        public bool _opened = false;
+        [SerializeField] bool _opened = false;
         public bool _grabbed = false;
-        public int _quantity;
-        public Transform _canvasPoint;
+        [SerializeField] int _quantity;
+        [SerializeField] Transform _canvasPoint;
         [SerializeField] List<Spot> _spots = new List<Spot>();
         [SerializeField] Transform _camera;
         [SerializeField] GameObject defaultObj;
+        [SerializeField] Animator animator;
         public ItemName defaultItem;
         void Start()
         {
@@ -51,6 +53,12 @@ namespace ITISKIRU
         {
 
         }
+        void OnMouseEnter() => GameManager.gM.Set_boxUI(defaultItem.ToString(), GetQuantity(), _canvasPoint.position);
+        void OnMouseExit()
+        {
+            GameManager.gM.Off_boxUI();
+            if (!_grabbed && !Player.isHolding) KeyEvents._ke.SetUIActive(InteractionType.None);
+        }
         void OnMouseOver()
         {
             if (!Player.isHolding && !Player.isHoldingHand)
@@ -59,10 +67,6 @@ namespace ITISKIRU
                 else if (!_grabbed && !_opened) KeyEvents._ke.SetUIActive(InteractionType.Pick, InteractionType.Open);
                 else if (_grabbed) KeyEvents._ke.SetUIActive(InteractionType.Place);
             }
-        }
-        void OnMouseExit()
-        {
-            if (!_grabbed && !Player.isHolding) KeyEvents._ke.SetUIActive(InteractionType.None);
         }
         public GameObject GetItem()
         {
@@ -100,9 +104,33 @@ namespace ITISKIRU
         {
             return "Quantity " + _quantity.ToString("D2") + "/" + _spots.Count.ToString("D2");
         }
-        public void OnInteract()
+        public void OnInteract(int Mouse, Transform Player)
         {
-            
+            //Debug.Log("Box Called");
+            if (Mouse == 0 && !_opened)
+            {
+                animator.SetTrigger("Move");
+                animator.SetBool("Open", true);
+                _opened = true;
+            }
+            else if (Mouse == 0 && _opened)
+            {
+                Debug.Log("OnInteract");
+                GameObject Temp = GetItem();
+                if (Temp) Player.GetComponent<Player>().GrabObjHand(Temp);
+            }
+            else if (Mouse == 0 && _grabbed) _grabbed = false;
+            else if (Mouse == 1 && !_opened)
+            {
+                Player.GetComponent<Player>().GrabObj(gameObject);
+                _grabbed = true;
+            }
+            else if (Mouse == 1 && _opened)
+            {
+                animator.SetTrigger("Move");
+                animator.SetBool("Open", false);
+                _opened = false;
+            }
         }
 
         public void OnInteractHand(Transform T)

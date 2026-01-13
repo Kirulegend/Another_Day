@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 5177568651471869838}
   - component: {fileID: -4545163346131528930}
   - component: {fileID: 3682714045488865261}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Egg
   m_TagString: Item
   m_Icon: {fileID: 0}
@@ -158,9 +158,9 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.042960368, y: 0.059400048, z: 0.042960092}
   m_Center: {x: -0.0000000055879354, y: 0.029700024, z: -0.0000000027939677}

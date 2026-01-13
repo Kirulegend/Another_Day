@@ -31,7 +31,7 @@ namespace ITISKIRU
         {
             if(!_isCameraTransitioning && _originalCamParent) StartCoroutine(ReturnCameraToOriginal());
         }
-        public void OnInteract()
+        public void OnInteract(int Num, Transform T)
         {
             if (_isInteracting) return;
             else

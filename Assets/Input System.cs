@@ -145,7 +145,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""6e64a66e-8988-4583-b6a9-e53ab2e94082"",
                     ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": ""Press,Press(behavior=1)"",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""RMB_Interact"",
