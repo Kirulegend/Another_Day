@@ -1157,6 +1157,8 @@ MonoBehaviour:
   currentHitObj: {fileID: 0}
   isPlaceable: 0
   isStorable: 0
+  isHoldingHand: 0
+  isHolding: 0
 --- !u!54 &176590127
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14185,6 +14187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ITISKIRU.Batter
   currentCapacity: 10
   totalCapacity: 10
+  currentPlayer: {fileID: 0}
 --- !u!65 &1494962337
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16264,6 +16267,41 @@ Transform:
   - {fileID: 1987455091}
   m_Father: {fileID: 52400442}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1791247363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1791247364}
+  m_Layer: 5
+  m_Name: Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 2e4484dbe02902a428f6524c2969dde4, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1791247364
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791247363}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1813397382}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 1}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1794384716
 GameObject:
   m_ObjectHideFlags: 0
@@ -16487,6 +16525,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ITISKIRU.Container
   TotalCapacity: 20
   currentCapacity: 0
+  _canvasPoint: {fileID: 1791247364}
   fillMaterial: {fileID: 1949085049}
 --- !u!65 &1813397381
 BoxCollider:
@@ -16509,6 +16548,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.5, z: 1}
   m_Center: {x: 0, y: 0.25, z: 0}
+--- !u!4 &1813397382 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 53eb875a923a7264f86c9469d6b622fa, type: 3}
+  m_PrefabInstance: {fileID: 1994389054}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1826225181
 GameObject:
   m_ObjectHideFlags: 0
@@ -17843,7 +17887,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 53eb875a923a7264f86c9469d6b622fa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1791247364}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 53eb875a923a7264f86c9469d6b622fa, type: 3}
       insertIndex: -1
@@ -18238,6 +18285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ITISKIRU.Batter
   currentCapacity: 10
   totalCapacity: 10
+  currentPlayer: {fileID: 0}
 --- !u!65 &2078431270
 BoxCollider:
   m_ObjectHideFlags: 0

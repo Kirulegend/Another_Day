@@ -39,17 +39,15 @@ namespace ITISKIRU
         void OnMouseEnter()
         {
             GameManager.gM.Set_boxUI("Egg Boiler", GetData(), _canvasPoint.position);
-            if (!Player.isHolding && !Player.isHoldingHand)
-            {
-                if (!isMoving && isOpen && !isCooking) KeyEvents._ke.SetUIActive(InteractionType.Take, InteractionType.Close);
-                else if (!isMoving && !isOpen && !isCooking) KeyEvents._ke.SetUIActive(InteractionType.Boil, InteractionType.Open);
-                else if (isCooking) KeyEvents._ke.SetUIActive(InteractionType.End);
-            }
+            if (isOpen && !isCooking) KeyEvents._ke.SetUIActive(InteractionType.Take, InteractionType.Close);
+            else if (!isOpen && !isCooking) KeyEvents._ke.SetUIActive(InteractionType.Boil, InteractionType.Open);
+            else if (isCooking) KeyEvents._ke.SetUIActive(InteractionType.End);
         }
         void OnMouseExit() => GameManager.gM.Off_boxUI();
         public void OC(bool isOpenC)
         {
-            if (!Player.isHolding && !Player.isHoldingHand)
+            if(isMoving) return;
+            if (!Player._isHold)
             {
                 if (!isCooking)
                 {
@@ -61,10 +59,10 @@ namespace ITISKIRU
                     }
                 }
                 else Boil();
-                if (!isMoving && isOpen && !isCooking) KeyEvents._ke.SetUIActive(InteractionType.Take, InteractionType.Close);
+            }
+            if (!isMoving && isOpen && !isCooking) KeyEvents._ke.SetUIActive(InteractionType.Take, InteractionType.Close);
                 else if (!isMoving && !isOpen && !isCooking) KeyEvents._ke.SetUIActive(InteractionType.Boil, InteractionType.Open);
                 else if (isCooking) KeyEvents._ke.SetUIActive(InteractionType.Open);
-            }
         }
 
         IEnumerator RotateCap(float targetAngle)
@@ -151,6 +149,7 @@ namespace ITISKIRU
                 if (isOpen) OC(true);
                 else Boil();
             }
+            OnMouseEnter();
         }
         public void OnInteractHand(Transform Item)
         {

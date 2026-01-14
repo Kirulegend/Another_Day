@@ -10,7 +10,7 @@ namespace ITISKIRU
         void OnMouseEnter()
         {
             GameManager.gM.Set_boxUI(_itemName.ToString(), _status, _canvasPoint.position);
-            KeyEvents._ke.SetUIActive(InteractionType.Take);
+            if (!Player._isHold) KeyEvents._ke.SetUIActive(InteractionType.Take);
         }
         void OnMouseExit()
         {

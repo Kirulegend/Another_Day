@@ -56,11 +56,11 @@ namespace ITISKIRU
         void OnMouseExit()
         {
             GameManager.gM.Off_boxUI();
-            if (!_grabbed && !Player.isHolding) KeyEvents._ke.SetUIActive(InteractionType.None);
+            if (!_grabbed && !Player._isHold) KeyEvents._ke.SetUIActive(InteractionType.None);
         }
         void OnMouseOver()
         {
-            if (!Player.isHolding && !Player.isHoldingHand)
+            if (!Player._isHold)
             {
                 if (!_grabbed && _opened) KeyEvents._ke.SetUIActive(InteractionType.Take, InteractionType.Close);
                 else if (!_grabbed && !_opened) KeyEvents._ke.SetUIActive(InteractionType.Pick, InteractionType.Open);
@@ -89,7 +89,9 @@ namespace ITISKIRU
         }
         public void OnInteract(int Mouse, Transform Player)
         {
-            if (Mouse == 0 && !_opened)
+            Debug.Log("Box OnInteract");
+            if (Mouse == 0 && _grabbed) _grabbed = false;
+            else if (Mouse == 0 && !_opened)
             {
                 animator.SetTrigger("Move");
                 animator.SetBool("Open", true);
@@ -100,7 +102,6 @@ namespace ITISKIRU
                 GameObject Temp = GetItem();
                 if (Temp) Player.GetComponent<Player>().GrabObjHand(Temp);
             }
-            else if (Mouse == 0 && _grabbed) _grabbed = false;
             else if (Mouse == 1 && !_opened)
             {
                 Player.GetComponent<Player>().GrabObj(gameObject);

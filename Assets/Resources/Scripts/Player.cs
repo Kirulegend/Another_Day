@@ -27,9 +27,10 @@ namespace ITISKIRU
         [SerializeField] GameObject currentHitObj;
         [SerializeField] bool isPlaceable = false;
         [SerializeField] bool isStorable = false;
-        public static bool isHoldingHand = false;
-        public static bool isHolding = false;
+        [SerializeField] bool isHoldingHand = false;
+        [SerializeField] bool isHolding = false;
         static bool _isInteract = false;
+        public static bool _isHold = false;
         public static event Action<bool> OnInteraction;
         
 
@@ -47,6 +48,7 @@ namespace ITISKIRU
         {
             isHolding = false;
             isHoldingHand = false;
+            _isHold = false;
             cameraTransform = transform.Find("Camera");
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -70,16 +72,18 @@ namespace ITISKIRU
 
         void GameInput_LMB_Down()
         {
-            if (currentHitObj)
+            if (currentHitObj && currentHitObj.GetComponent<Interactable>() != null)
             {
-                if(currentHitObj.GetComponent<Interactable>() != null)
+                if (!isHolding && !isHoldingHand)
                 {
-                    if (!isHolding && !isHoldingHand) currentHitObj.GetComponent<Interactable>().OnInteract(0, transform);
-                    else if (isStorable) currentHitObj.GetComponent<Interactable>().OnInteractHand(grabbedObject.transform);
+                    Interactable[] interactables = currentHitObj.GetComponents<Interactable>();
+                    foreach (Interactable target in interactables) target.OnInteract(0, transform);
                 }
+                else if (isStorable) currentHitObj.GetComponent<Interactable>().OnInteractHand(grabbedObject.transform);
             }
+            else if(grabbedObject && grabbedObject.GetComponent<Interactable>() != null && isPlaceable) grabbedObject.GetComponent<Interactable>().OnInteract(0, transform);
 
-            if(isHoldingHand) PlaceGrabbedObjHand();
+            if (isHoldingHand) PlaceGrabbedObjHand();
             else if(isHolding) PlaceGrabbedObj();
 
             if (Cursor.visible && !isInteract)
@@ -194,7 +198,7 @@ namespace ITISKIRU
             foreach (Renderer r in previewObject.GetComponentsInChildren<Renderer>()) r.material = whiteMaterial;
             previewObject.GetComponent<Collider>().enabled = previewObject.GetComponent<Collider>().isTrigger = true;
             previewObject.AddComponent<PlacementPreview>();
-            isHolding = true;
+            isHolding = _isHold = true;
         }
 
         void HandlePreview()
@@ -229,8 +233,16 @@ namespace ITISKIRU
             Renderer[] previewRenderers = previewObject.GetComponentsInChildren<Renderer>();
             foreach (Renderer r in previewRenderers)
             {
-                if (isPlaceable) r.material = whiteMaterial;
-                else r.material = redMaterial;
+                if (isPlaceable)
+                {
+                    r.material = whiteMaterial;
+                    KeyEvents._ke.SetUIActive(InteractionType.Place);
+                }
+                else
+                {
+                    r.material = redMaterial;
+                    KeyEvents._ke.SetUIActive(InteractionType.None);
+                }
             }
             previewObject.transform.position = previewPosition;
             if (Input.mouseScrollDelta.y != 0) previewObject.transform.Rotate(Vector3.up, Input.mouseScrollDelta.y * 15, Space.Self);
@@ -247,8 +259,8 @@ namespace ITISKIRU
             if (rb) rb.isKinematic = false;
             Destroy(previewObject);
             grabbedObject = null;
-            isHolding = false;
-            isPlaceable = false;
+            isHolding = _isHold  = isPlaceable = false;
+            KeyEvents._ke.SetUIActive(InteractionType.None);
         }
 
         public void GrabObjHand(GameObject box)
@@ -264,7 +276,7 @@ namespace ITISKIRU
             previewObject.AddComponent<Rigidbody>().isKinematic = true;
             previewObject.GetComponent<Collider>().enabled = previewObject.GetComponent<Collider>().isTrigger = true;
             previewObject.AddComponent<PlacementPreview>();
-            isHoldingHand = true;
+            isHoldingHand = _isHold = true;
         }
 
         void HandlePreviewHand()
@@ -304,9 +316,21 @@ namespace ITISKIRU
                 isPlaceable = false;
                 KeyEvents._ke.SetUIActive(InteractionType.None);
             }
-            if(isStorable) previewObject.GetComponent<ItemObj>()._material.material = blueMaterial;
-            else if (isPlaceable) previewObject.GetComponent<ItemObj>()._material.material = whiteMaterial;
-            else previewObject.GetComponent<ItemObj>()._material.material = redMaterial;
+            if (isStorable)
+            {
+                previewObject.GetComponent<ItemObj>()._material.material = blueMaterial;
+                KeyEvents._ke.SetUIActive(InteractionType.Putin);
+            }
+            else if (isPlaceable)
+            {
+                previewObject.GetComponent<ItemObj>()._material.material = whiteMaterial;
+                KeyEvents._ke.SetUIActive(InteractionType.Place);
+            }
+            else
+            {
+                previewObject.GetComponent<ItemObj>()._material.material = redMaterial;
+                KeyEvents._ke.SetUIActive(InteractionType.None);
+            }
             previewObject.transform.position = previewPosition;
             if (Input.mouseScrollDelta.y != 0) previewObject.transform.Rotate(Vector3.up, Input.mouseScrollDelta.y * 15, Space.Self);
         }
@@ -317,8 +341,7 @@ namespace ITISKIRU
             grabbedObject.layer = LayerMask.NameToLayer("Interactable");
             grabbedObject.GetComponent<Collider>().enabled = true;
             Destroy(previewObject);
-            isPlaceable = false;
-            isHoldingHand = false;
+            isHoldingHand = _isHold = isPlaceable = false;
             if (isStorable) isStorable = false;
             else
             {

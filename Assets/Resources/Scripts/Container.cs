@@ -15,21 +15,18 @@ namespace ITISKIRU
         }
         public int TotalCapacity = 20;
         [Range(0, 20)] public float currentCapacity = 0;
+        [SerializeField] Transform _canvasPoint;
         [SerializeField] MeshRenderer fillMaterial;
         void OnFillChange()
         {
             if (fillMaterial) fillMaterial.sharedMaterial.SetFloat("_FillLevel", FillData);
         }
-        void OnValidate()
-        {
-            OnFillChange();
-        }
+        void OnValidate() => OnFillChange();
 
         public void OnInteract(int Mouse, Transform Script) { }
 
         public void OnInteractHand(Transform Item)
         {
-            Debug.Log("Checking Container for " + name);
             Batter batter = Item.GetComponent<Batter>();
             if (batter && currentCapacity < TotalCapacity && batter.currentCapacity > 0)
             {
@@ -37,10 +34,13 @@ namespace ITISKIRU
                 currentCapacity += 1f;
                 currentCapacity = Mathf.Clamp(currentCapacity, 0, TotalCapacity);
                 OnFillChange();
+                batter.currentPlayer.GrabObjHand(batter.gameObject);
                 batter.Status();
+                OnMouseEnter();
             }
         }
-
+        void OnMouseEnter() => GameManager.gM.Set_boxUI("Container", $"Fill: {currentCapacity}/{TotalCapacity}", _canvasPoint.position);
+        void OnMouseExit() => GameManager.gM.Off_boxUI();
         public bool Check(ItemName name)
         {
             KeyEvents._ke.SetUIActive(InteractionType.Putin);
