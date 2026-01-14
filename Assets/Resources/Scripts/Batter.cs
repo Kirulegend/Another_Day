@@ -4,24 +4,11 @@ using UnityEngine.Rendering;
 
 namespace ITISKIRU
 {
-    public class Batter : MonoBehaviour, Interactable
+    public class Batter : MonoBehaviour
     {
-
-        public float TotalCapacity = 10;
-        public void OnInteract(int Num, Transform T)
-        {
-            
-        }
-        public void OnInteractHand(Transform Container)
-        {
-            Container container = Container.GetComponent<Container>();
-            if (container && container.currentCapacity < container.TotalCapacity)
-            {
-                TotalCapacity -= .01f;
-                container.FillData += 01f;
-            }
-        }
-
-
+        public float currentCapacity = 10;
+        [SerializeField] float totalCapacity = 10;
+        void Start() => Status();
+        public void Status() => GetComponent<ItemObj>()._status = $"{currentCapacity} / {totalCapacity}";
     }
 }

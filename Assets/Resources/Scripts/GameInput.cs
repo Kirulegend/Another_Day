@@ -8,7 +8,7 @@ namespace ITISKIRU
         InputSystem inputActions;
         public static GameInput GI_Instance;
         public event Action LMB_Down;
-        public event Action LMB_Hold;
+        //public event Action LMB_Hold;
         public event Action RMB_Down;
         public event Action RMB_Up;
         public event Action LSK_Down;

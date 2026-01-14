@@ -5,11 +5,15 @@ namespace ITISKIRU
     public interface Interactable
     {
         void OnInteract(int Mouse, Transform Script);
-        void OnInteractHand(Transform T);
+        void OnInteractHand(Transform Item);
     }
 
-    public interface Storable
+    public interface Containable
     {
-        void OnStore(string Msg);
+        bool Check(ItemName name);
+    }
+    public interface Fillable
+    {
+        void Fill(GameObject Filler);
     }
 }

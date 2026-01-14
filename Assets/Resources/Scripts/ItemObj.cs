@@ -24,11 +24,10 @@ namespace ITISKIRU
 
         public void OnInteract(int Mouse, Transform Player)
         {
-            Debug.Log("OnInteract");
             if (Mouse == 0) Player.GetComponent<Player>().GrabObjHand(gameObject);
         }
 
-        public void OnInteractHand(Transform T)
+        public void OnInteractHand(Transform Item)
         {
             
         }

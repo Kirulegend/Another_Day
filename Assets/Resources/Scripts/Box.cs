@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 namespace ITISKIRU
 {
-    public class Box : MonoBehaviour, Interactable
+    public class Box : MonoBehaviour, Interactable, Containable
     {
         [SerializeField] bool _opened = false;
         public bool _grabbed = false;
@@ -68,7 +67,7 @@ namespace ITISKIRU
                 else if (_grabbed) KeyEvents._ke.SetUIActive(InteractionType.Place);
             }
         }
-        public GameObject GetItem()
+        GameObject GetItem()
         {
             foreach (Spot spot in _spots) if (spot._isOccupied && spot._spot.childCount > 0)
                 {
@@ -78,26 +77,10 @@ namespace ITISKIRU
                 }
             return null;
         }
-        public bool SetItem(GameObject item)
+        public bool Check(ItemName name)
         {
-            for (int i = _spots.Count - 1; i >= 0; i--)
-            {
-                Spot spot = _spots[i];
-                if (!spot._isOccupied)
-                {
-                    spot._isOccupied = true;
-                    _quantity++;
-                    item.transform.SetParent(spot._spot);
-                    item.transform.localPosition = Vector3.zero;
-                    item.transform.localRotation = Quaternion.identity;
-                    return true;
-                }
-            }
-            return false;
-        }
-        public bool ItemCheck(ItemName name)
-        {
-            if(_quantity < _spots.Count && name == defaultItem) return true;
+            KeyEvents._ke.SetUIActive(InteractionType.Putin);
+            if (_quantity < _spots.Count && name == defaultItem) return true;
             return false;
         }
         public string GetQuantity()
@@ -106,7 +89,6 @@ namespace ITISKIRU
         }
         public void OnInteract(int Mouse, Transform Player)
         {
-            //Debug.Log("Box Called");
             if (Mouse == 0 && !_opened)
             {
                 animator.SetTrigger("Move");
@@ -115,7 +97,6 @@ namespace ITISKIRU
             }
             else if (Mouse == 0 && _opened)
             {
-                Debug.Log("OnInteract");
                 GameObject Temp = GetItem();
                 if (Temp) Player.GetComponent<Player>().GrabObjHand(Temp);
             }
@@ -133,9 +114,22 @@ namespace ITISKIRU
             }
         }
 
-        public void OnInteractHand(Transform T)
+        public void OnInteractHand(Transform Item)
         {
-            
+            for (int i = _spots.Count - 1; i >= 0; i--)
+            {
+                Spot spot = _spots[i];
+                if (!spot._isOccupied)
+                {
+                    spot._isOccupied = true;
+                    _quantity++;
+                    Item.SetParent(spot._spot);
+                    Item.localPosition = Vector3.zero;
+                    Item.localRotation = Quaternion.identity;
+                    OnMouseEnter();
+                    return;
+                }
+            }
         }
     }
 }

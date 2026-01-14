@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security;
 using UnityEngine;
 namespace ITISKIRU
 {
-    public class EggCooker : MonoBehaviour, Interactable
+    public class EggCooker : MonoBehaviour, Interactable, Containable
     {
         [SerializeField] Transform cap;
         [SerializeField] float openAngle = -127f;
@@ -130,31 +128,13 @@ namespace ITISKIRU
             }
             return null;
         }
-        public bool SetItem(GameObject item)
-        {
-            for (int i = spots.Count - 1; i >= 0; i--)
-            {
-                Spot spot = spots[i];
-                if (!spot._isOccupied)
-                {
-                    spot._isOccupied = true;
-                    _quantity++;
-                    item.transform.SetParent(spot._spot);
-                    item.transform.localPosition = Vector3.zero;
-                    item.transform.localRotation = Quaternion.identity;
-                    KeyEvents._ke.SetUIActive(InteractionType.Take, InteractionType.Close);
-                    return true;
-                }
-            }
-            return false;
-        }
         public string GetData()
         {
             if (isCooking) return "Cooking";
             else return "Idle";
         }
 
-        public void OnInteract(int Num, Transform Player)
+        public void OnInteract(int Num, Transform player)
         {
             Debug.Log("OnInteract");
             if (Num == 0)
@@ -162,7 +142,7 @@ namespace ITISKIRU
                 if (isOpen)
                 {
                     GameObject Temp = GetItem();
-                    if (Temp) Player.GetComponent<Player>().GrabObjHand(Temp);
+                    if (Temp) player.GetComponent<Player>().GrabObjHand(Temp);
                 }
                 else OC(false);
             }
@@ -172,9 +152,30 @@ namespace ITISKIRU
                 else Boil();
             }
         }
-        public void OnInteractHand(Transform T)
+        public void OnInteractHand(Transform Item)
         {
+            for (int i = spots.Count - 1; i >= 0; i--)
+            {
+                Spot spot = spots[i];
+                if (!spot._isOccupied)
+                {
+                    spot._isOccupied = true;
+                    _quantity++;
+                    Item.SetParent(spot._spot);
+                    Item.localPosition = Vector3.zero;
+                    Item.localRotation = Quaternion.identity;
+                    KeyEvents._ke.SetUIActive(InteractionType.Take, InteractionType.Close);
+                    OnMouseEnter();
+                    return;
+                }
+            }
+        }
 
+        public bool Check(ItemName name)
+        {
+            KeyEvents._ke.SetUIActive(InteractionType.Putin);
+            if (_quantity < spots.Count && name == ItemName.Egg && !isCooking) return true;
+            return false;
         }
     }
 }

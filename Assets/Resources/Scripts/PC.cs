@@ -51,7 +51,7 @@ namespace ITISKIRU
                 }
             }
         }
-        public void OnInteractHand(Transform T) { }
+        public void OnInteractHand(Transform Item) { }
         IEnumerator MoveCameraToLock(Vector3 targetPos, Quaternion targetRot)
         {
             _isCameraTransitioning = true;
