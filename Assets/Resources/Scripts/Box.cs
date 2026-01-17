@@ -5,7 +5,7 @@ namespace ITISKIRU
     public class Box : MonoBehaviour, Interactable, Containable
     {
         [SerializeField] bool _opened = false;
-        public bool _grabbed = false;
+        [SerializeField] bool _grabbed = false;
         [SerializeField] int _quantity;
         [SerializeField] Transform _canvasPoint;
         [SerializeField] List<Spot> _spots = new List<Spot>();

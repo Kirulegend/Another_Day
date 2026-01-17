@@ -27,6 +27,7 @@ namespace ITISKIRU
         [SerializeField] GameObject currentHitObj;
         [SerializeField] bool isPlaceable = false;
         [SerializeField] bool isStorable = false;
+        [SerializeField] bool isFillable = false;
         [SerializeField] bool isHoldingHand = false;
         [SerializeField] bool isHolding = false;
         static bool _isInteract = false;
@@ -79,11 +80,16 @@ namespace ITISKIRU
                     Interactable[] interactables = currentHitObj.GetComponents<Interactable>();
                     foreach (Interactable target in interactables) target.OnInteract(0, transform);
                 }
+                else if(isFillable) currentHitObj.GetComponent<Fillable>().Fill(grabbedObject);
                 else if (isStorable) currentHitObj.GetComponent<Interactable>().OnInteractHand(grabbedObject.transform);
             }
-            else if(grabbedObject && grabbedObject.GetComponent<Interactable>() != null && isPlaceable) grabbedObject.GetComponent<Interactable>().OnInteract(0, transform);
+            else if(grabbedObject && grabbedObject.GetComponent<Interactable>() != null && isPlaceable)
+            {
+                Debug.Log("isHolding : " + isHolding + "isHoldingHand : " + isHoldingHand);
+                grabbedObject.GetComponent<Interactable>().OnInteract(0, transform);
+            }
 
-            if (isHoldingHand) PlaceGrabbedObjHand();
+            if (isHoldingHand && !isFillable) PlaceGrabbedObjHand();
             else if(isHolding) PlaceGrabbedObj();
 
             if (Cursor.visible && !isInteract)
@@ -127,10 +133,6 @@ namespace ITISKIRU
 
         void Update()
         {
-            //Debug.Log("isHolding : " + isHolding);
-            //Debug.Log("isHoldingHand : " + isHoldingHand);
-            //Debug.Log("Current Obj : " + currentHitObj);
-            //Debug.Log("Placable? : " + isPlaceable);
             CameraLook();
             MovePlayer();
             if (isHolding) HandlePreview();
@@ -189,7 +191,8 @@ namespace ITISKIRU
             KeyEvents._ke.SetUIActive(InteractionType.Place, InteractionType.Rotate);
             grabbedObject = box;
             grabbedObject.layer = LayerMask.NameToLayer("Ignore Raycast");
-            grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
+            Rigidbody rb = grabbedObject.GetComponent<Rigidbody>();
+            if(rb) rb.isKinematic = true;
             MonoBehaviour[] scripts = grabbedObject.GetComponents<MonoBehaviour>();
             foreach (var script in scripts) script.enabled = false;
             foreach (Collider col in grabbedObject.GetComponentsInChildren<Collider>()) col.enabled = false;
@@ -289,17 +292,20 @@ namespace ITISKIRU
             {
                 previewPosition = hit.point + new Vector3(0, .01f, 0);
                 currentHitObj = hit.collider.gameObject;
-                Containable containable = hit.transform.GetComponent<Containable>();
-                if (containable != null)
+                ItemObj IO = grabbedObject.GetComponent<ItemObj>();
+                if (IO && IO._itemName != ItemName.Other)
                 {
-                    isStorable = hit.collider.GetComponent<Containable>().Check(grabbedObject.GetComponent<ItemObj>()._itemName);
+                    if (hit.transform.GetComponent<Containable>() != null)
+                    {
+                        isStorable = hit.transform.GetComponent<Containable>().Check(grabbedObject.GetComponent<ItemObj>()._itemName);
+                        if (hit.transform.GetComponent<Fillable>() != null) isFillable = hit.collider.GetComponent<Containable>().Check(grabbedObject.GetComponent<ItemObj>()._itemName);
+                    }
+                    else isStorable = isFillable = false;
                 }
-                else isStorable = false;
 
                 if (hit.transform && hit.transform.gameObject.layer == 8)
                 {
-                    if (!isStorable) previewObject.SetActive(false);
-                    else previewObject.SetActive(true);
+                    previewObject.SetActive(false);
                     isPlaceable = false;
                 }
                 else
@@ -339,12 +345,12 @@ namespace ITISKIRU
         {
             if (!isPlaceable && !isStorable) return;
             grabbedObject.layer = LayerMask.NameToLayer("Interactable");
-            grabbedObject.GetComponent<Collider>().enabled = true;
             Destroy(previewObject);
             isHoldingHand = _isHold = isPlaceable = false;
-            if (isStorable) isStorable = false;
+            if (isStorable) isStorable = isFillable = false;
             else
             {
+                grabbedObject.GetComponent<Collider>().enabled = true;
                 grabbedObject.transform.position = previewObject.transform.position;
                 grabbedObject.transform.rotation = previewObject.transform.rotation;
             }

@@ -7,7 +7,7 @@ namespace ITISKIRU
     public class KeyEvents : MonoBehaviour
     {
         public static KeyEvents _ke;
-        public GameObject[] _keys;
+        [SerializeField] GameObject[] _keys;
         Dictionary<InteractionType, GameObject> uiButtons = new Dictionary<InteractionType, GameObject>();
         private void Awake() => _ke = this;
         void Start()

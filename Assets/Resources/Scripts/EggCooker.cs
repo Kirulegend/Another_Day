@@ -9,14 +9,14 @@ namespace ITISKIRU
         [SerializeField] float openAngle = -127f;
         [SerializeField] float speed = 60f;
         [SerializeField] bool isMoving = false;
-        public bool isOpen = false;
-        public bool isCooking = false;
+        [SerializeField] bool isOpen = false;
+        [SerializeField] bool isCooking = false;
         [SerializeField] List<Spot> spots = new List<Spot>();
         [SerializeField] int _quantity = 0;
         [SerializeField] Coroutine cookingCoroutine;
         [SerializeField] float cookDuration = 10f;
         [SerializeField] ParticleSystem smoke;
-        public Transform _canvasPoint;
+        [SerializeField] Transform _canvasPoint;
         [SerializeField] Material defaultMat;
         [SerializeField] Material boiledMat;
 
@@ -118,11 +118,11 @@ namespace ITISKIRU
             if (isOpen)
             {
                 foreach (Spot spot in spots) if (spot._isOccupied && spot._spot.childCount > 0)
-                    {
-                        spot._isOccupied = false;
-                        _quantity--;
-                        return spot._spot.GetChild(0).gameObject;
-                    }
+                {
+                    spot._isOccupied = false;
+                    _quantity--;
+                    return spot._spot.GetChild(0).gameObject;
+                }
             }
             return null;
         }
@@ -134,7 +134,6 @@ namespace ITISKIRU
 
         public void OnInteract(int Num, Transform player)
         {
-            Debug.Log("OnInteract");
             if (Num == 0)
             {
                 if (isOpen)

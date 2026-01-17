@@ -9,7 +9,6 @@ namespace ITISKIRU
 {
     public class Mart : MonoBehaviour
     {
-        public static Mart Instance;
         [SerializeField] GameObject _itemPrefab;
         [SerializeField] Transform _itemParent;
         [SerializeField] ItemInfo[] itemInfos;
@@ -19,11 +18,12 @@ namespace ITISKIRU
         [SerializeField] TextMeshProUGUI _toPayText;
         [SerializeField] TMP_Dropdown _types;
         [SerializeField] TMP_InputField searchInput;
+        [SerializeField] List<string> optionTexts = new List<string>();
+        [SerializeField] List<Item> filteredItems = new List<Item>();
+        public static Mart Instance;
         public int _cartItems = 0;
         public int _currency = 0;
         public int _toPay = 0;
-        [SerializeField] List<string> optionTexts = new List<string>();
-        [SerializeField] List<Item> filteredItems = new List<Item>();
         void Awake() => Instance = this;
         void Start()
         {
