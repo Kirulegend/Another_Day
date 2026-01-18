@@ -8,7 +8,11 @@ namespace ITISKIRU
         [SerializeField] Transform _canvasPoint;
         [SerializeField] int quantity;
         [SerializeField] List<Spot> idlis = new List<Spot>();
-        void OnMouseEnter() => GameManager.gM.Set_boxUI("Idli Plate", GetQuantity(), _canvasPoint.position);
+        void OnMouseEnter()
+        {
+            GameManager.gM.Set_boxUI("Idli Plate", GetQuantity(), _canvasPoint.position);
+            KeyEvents._ke.SetUIActive(InteractionType.Take, InteractionType.Pick);
+        }
         void OnMouseExit() => GameManager.gM.Off_boxUI();
         public string GetQuantity()
         {
@@ -16,7 +20,7 @@ namespace ITISKIRU
         }
         public GameObject GetItem()
         {
-            foreach (Spot spot in idlis) if (spot._isOccupied && spot._spot.childCount > 0)
+            foreach (Spot spot in idlis) if (spot._isOccupied && spot._spot.childCount > 0 && GetComponent<Collider>().enabled)
                 {
                     spot._isOccupied = false;
                     quantity--;
@@ -26,11 +30,13 @@ namespace ITISKIRU
         }
         public void OnInteract(int Mouse, Transform Player)
         {
-            if (Mouse == 1)
+            if (Mouse == 0)
             {
                 GameObject plate = GetItem();
                 if (plate) Player.GetComponent<Player>().GrabObjHand(plate);
             }
+            if (Mouse == 1) Player.GetComponent<Player>().GrabObjHand(gameObject);
+            OnMouseEnter();
         }
         public void OnInteractHand(Transform Item)
         {

@@ -16,7 +16,7 @@ namespace ITISKIRU
         void OnMouseEnter()
         {
             GameManager.gM.Set_boxUI("Idli Steamer", GetQuantity(), _canvasPoint.position);
-            if(cap.position != capPos) KeyEvents._ke.SetUIActive(InteractionType.Take);
+            if(cap.localPosition != capPos) KeyEvents._ke.SetUIActive(InteractionType.TakeR);
         }
         void OnMouseExit() => GameManager.gM.Off_boxUI();
         public string GetQuantity()
@@ -38,16 +38,18 @@ namespace ITISKIRU
         }
         public void OnInteract(int Mouse, Transform Player)
         {
-            if(Mouse == 0)
+            if(Mouse == 1)
             {
                 GameObject plate = GetItem();
                 if (plate) Player.GetComponent<Player>().GrabObjHand(plate);
             }
+            OnMouseEnter();
         }
         public void OnInteractHand(Transform Item)
         {
             if (Item == cap)
             {
+                Item.GetComponent<Collider>().enabled = true;
                 Item.SetParent(this.transform);
                 Item.localPosition = capPos;
                 Item.rotation = Quaternion.identity;

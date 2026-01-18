@@ -85,7 +85,6 @@ namespace ITISKIRU
             }
             else if(grabbedObject && grabbedObject.GetComponent<Interactable>() != null && isPlaceable)
             {
-                Debug.Log("isHolding : " + isHolding + "isHoldingHand : " + isHoldingHand);
                 grabbedObject.GetComponent<Interactable>().OnInteract(0, transform);
             }
 

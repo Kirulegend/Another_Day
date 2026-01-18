@@ -553,6 +553,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: SpriteSheet_19
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 545
+        width: 347
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c27567733e6aad04c8435b0ab0dcd886
+      internalID: -2106554280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -578,6 +600,7 @@ TextureImporter:
       SpriteSheet_16: -1633965170
       SpriteSheet_17: 1685121686
       SpriteSheet_18: 1114476101
+      SpriteSheet_19: -2106554280
       SpriteSheet_2: 1485869374
       SpriteSheet_3: 1798672182
       SpriteSheet_4: -1240926810

@@ -16,7 +16,7 @@ namespace ITISKIRU
         {
             GameManager.gM.Off_boxUI();
             KeyEvents._ke.SetUIActive(InteractionType.None);
-        }
+        }   
         public string GetData()
         {
             return _status;
