@@ -24,7 +24,8 @@ namespace ITISKIRU
         Boil = 1 << 12,
         Cook = 1 << 13,
         Fry = 1 << 14,
-        TakeR = 1 << 15
+        TakeR = 1 << 15,
+        Fillin = 1 << 16
     }
 
     [Serializable]

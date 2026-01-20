@@ -70,7 +70,6 @@ namespace ITISKIRU
                     }
                 }
             }
-
         }
 
         public bool Check(ItemName name)

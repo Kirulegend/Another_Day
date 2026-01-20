@@ -141,6 +141,7 @@ namespace ITISKIRU
 
         void MovePlayer()
         {
+            Debug.Log(isInteract);
             if (isInteract) return;
             int moveX = (int)Input.GetAxisRaw("Horizontal");
             int moveZ = (int)Input.GetAxisRaw("Vertical");
@@ -183,19 +184,19 @@ namespace ITISKIRU
             }
         }
 
-        public void GrabObj(GameObject box)
+        public void GrabObj(GameObject Obj)
         {
             if (isHolding) return;
             GameManager.gM.Off_boxUI();
             KeyEvents._ke.SetUIActive(InteractionType.Place, InteractionType.Rotate);
-            grabbedObject = box;
+            grabbedObject = Obj;
             grabbedObject.layer = LayerMask.NameToLayer("Ignore Raycast");
             Rigidbody rb = grabbedObject.GetComponent<Rigidbody>();
             if(rb) rb.isKinematic = true;
             MonoBehaviour[] scripts = grabbedObject.GetComponents<MonoBehaviour>();
             foreach (var script in scripts) script.enabled = false;
             foreach (Collider col in grabbedObject.GetComponentsInChildren<Collider>()) col.enabled = false;
-            previewObject = Instantiate(box, grabPos.position, Quaternion.identity);
+            previewObject = Instantiate(Obj, grabPos.position, Quaternion.identity);
             foreach (var script in scripts) script.enabled = true;
             foreach (Renderer r in previewObject.GetComponentsInChildren<Renderer>()) r.material = whiteMaterial;
             previewObject.GetComponent<Collider>().enabled = previewObject.GetComponent<Collider>().isTrigger = true;
@@ -265,15 +266,15 @@ namespace ITISKIRU
             KeyEvents._ke.SetUIActive(InteractionType.None);
         }
 
-        public void GrabObjHand(GameObject box)
+        public void GrabObjHand(GameObject Obj)
         {
             if (isHoldingHand) return;
             GameManager.gM.Off_boxUI();
             KeyEvents._ke.SetUIActive(InteractionType.Place, InteractionType.Rotate);
-            grabbedObject = box;
+            grabbedObject = Obj;
             grabbedObject.transform.parent = null;
             grabbedObject.layer = LayerMask.NameToLayer("Ignore Raycast");
-            previewObject = Instantiate(box, objGrabPos.position, Quaternion.identity);
+            previewObject = Instantiate(Obj, objGrabPos.position, Quaternion.identity);
             grabbedObject.GetComponent<Collider>().enabled = false;
             previewObject.AddComponent<Rigidbody>().isKinematic = true;
             previewObject.GetComponent<Collider>().enabled = previewObject.GetComponent<Collider>().isTrigger = true;
