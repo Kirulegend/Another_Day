@@ -47,6 +47,7 @@ namespace ITISKIRU
 
         void Start()
         {
+            isInteract = false;
             isHolding = false;
             isHoldingHand = false;
             _isHold = false;
@@ -142,6 +143,7 @@ namespace ITISKIRU
         void MovePlayer()
         {
             Debug.Log(isInteract);
+
             if (isInteract) return;
             int moveX = (int)Input.GetAxisRaw("Horizontal");
             int moveZ = (int)Input.GetAxisRaw("Vertical");

@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace ITISKIRU
 {
-    public class Plates : MonoBehaviour, Interactable
+    public class Plates : MonoBehaviour, Interactable, Containable
     {
         [SerializeField] GameObject plate;
         [SerializeField] int defaultCount = 10;
@@ -21,13 +22,24 @@ namespace ITISKIRU
                 Script.GetComponent<Player>().GrabObjHand(lastPlate);
                 BC.size = new Vector3(BC.size.x, 0.03f * defaultCount, BC.size.z);
                 BC.center = new Vector3(BC.center.x, 0.015f * defaultCount, BC.center.z);
-                _canvasPoint.transform.localPosition = new Vector3(0, Mathf.Clamp(0.1f * plates.Count, .5f, 2.5f), 0);
+                _canvasPoint.transform.localPosition = new Vector3(0, .25f + Mathf.Clamp(0.03f * plates.Count, .5f, 2.5f), 0);
             }
+            OnMouseEnter();
         }
 
         public void OnInteractHand(Transform Item)
         {
-            
+            plates.Add(Item.gameObject);
+            Item.SetParent(transform);
+            Item.localPosition = new Vector3(0, 0.025f * (plates.Count - 1), 0);
+            Item.localRotation = Quaternion.identity;
+            OnMouseEnter();
+        }
+        public bool Check(ItemName name)
+        {
+            KeyEvents._ke.SetUIActive(InteractionType.Putin);
+            if (plates.Count <= 50 && name == ItemName.Plate) return true;
+            return false;
         }
 
         void Start()
@@ -40,7 +52,7 @@ namespace ITISKIRU
             }
             BC.size = new Vector3(BC.size.x, 0.03f * defaultCount, BC.size.z);
             BC.center = new Vector3(BC.center.x, 0.015f * defaultCount, BC.center.z);
-            _canvasPoint.transform.localPosition = new Vector3(0, .75f + Mathf.Clamp(0.03f * plates.Count, .5f, 2.5f), 0);
+            _canvasPoint.transform.localPosition = new Vector3(0, .25f + Mathf.Clamp(0.03f * plates.Count, .5f, 2.5f), 0);
         }
         void OnMouseEnter()
         {
@@ -48,5 +60,6 @@ namespace ITISKIRU
             if (plates.Count > 0) KeyEvents._ke.SetUIActive(InteractionType.Take);
         }
         void OnMouseExit() => GameManager.gM.Off_boxUI();
+
     }
 }
