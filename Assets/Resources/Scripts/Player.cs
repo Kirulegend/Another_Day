@@ -168,6 +168,7 @@ namespace ITISKIRU
             Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, raycastDistance))
             {
+                Debug.Log(currentHitObj);
                 if ((raycastLayerMask.value & (1 << hit.collider.gameObject.layer)) != 0)
                 {
                     currentHitObj = hit.collider.gameObject;

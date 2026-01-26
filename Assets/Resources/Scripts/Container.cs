@@ -19,7 +19,7 @@ namespace ITISKIRU
         [SerializeField] MeshRenderer fillMaterial;
         void OnFillChange()
         {
-            if (fillMaterial) fillMaterial.sharedMaterial.SetFloat("_FillLevel", FillData);
+            if (fillMaterial) fillMaterial.material.SetFloat("_FillLevel", FillData);
         }
         void OnValidate() => OnFillChange();
 

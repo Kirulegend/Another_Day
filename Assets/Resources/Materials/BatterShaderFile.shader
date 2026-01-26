@@ -1,65 +1,62 @@
-Shader "Custom/BatteryFill_DoubleSided"
+Shader "Custom/LiquidFill_WithCap"
 {
     Properties
     {
-        _FillColor("Fill Color", Color) = (1, 1, 1, 1)
-        _FillLevel("Fill Level", Range(0, 1)) = 0.5
+        _FillColor ("Batter Color", Color) = (1, 0.5, 0, 1)
+        _EmptyColor ("Inner Container Color", Color) = (0.2, 0.2, 0.2, 1)
+        _FillLevel ("Fill Level", Range(-0.5, 0.5)) = 0.0
     }
 
     SubShader
     {
         Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" }
-        LOD 100
-
-        // --- THIS LINE ENABLES DOUBLE-SIDED RENDERING ---
+        
+        // Critical: Disable culling so we can color the "inside" of the mesh
         Cull Off 
-        // ------------------------------------------------
 
         Pass
         {
-            Name "Unlit"
-            
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-            struct Attributes
-            {
-                float4 positionOS   : POSITION;
-            };
-
-            struct Varyings
-            {
-                float4 positionCS   : SV_POSITION;
-                float3 positionOS   : TEXCOORD0;
-            };
+            struct Attributes { float4 positionOS : POSITION; };
+            struct Varyings { float4 positionCS : SV_POSITION; float3 positionOS : TEXCOORD0; };
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _FillColor;
+                float4 _EmptyColor;
                 float _FillLevel;
             CBUFFER_END
 
-            Varyings vert(Attributes IN)
+            Varyings vert(Attributes input)
             {
-                Varyings OUT;
-                OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
-                OUT.positionOS = IN.positionOS.xyz;
-                return OUT;
+                Varyings output;
+                output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
+                output.positionOS = input.positionOS.xyz; 
+                return output;
             }
 
-            half4 frag(Varyings IN) : SV_Target
+            half4 frag(Varyings input, bool isFrontFace : SV_IsFrontFace) : SV_Target
             {
-                float yPos = IN.positionOS.y;
-                float remappedFill = -0.5 + (_FillLevel - 0.0) * (0.5 - (-0.5)) / (1.0 - 0.0);
+                // Mask logic: Is the current pixel below our fill height?
+                bool isBelowFill = input.positionOS.y < _FillLevel;
 
-                float alphaMask = step(yPos, remappedFill);
-
-                // Discard pixels below the fill line
-                if (alphaMask < 0.5) discard;
-
-                return _FillColor;
+                if (isFrontFace)
+                {
+                    // Exterior of the bowl: Color depends on if we are below the line
+                    return isBelowFill ? _FillColor : _EmptyColor;
+                }
+                else
+                {
+                    // Interior/Hollow part:
+                    // If we are below the fill line, color it as the "Top" (Cap) of the liquid
+                    if (isBelowFill) return _FillColor;
+                    
+                    // If we are above the fill line, color it as the bowl's inner wall
+                    return _EmptyColor;
+                }
             }
             ENDHLSL
         }
